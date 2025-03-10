@@ -18,14 +18,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::apiResource('users', AuthController::class);
 
-Route::apiResource('cars', CarController::class);
+Route::apiResource('cars', CarController::class)->middleware('auth:sanctum');
 
-Route::apiResource('rentals', RentalController::class);
+Route::apiResource('rentals', RentalController::class)->middleware('auth:sanctum');
 
-Route::apiResource('payments', PaymentController::class);
+Route::apiResource('payments', PaymentController::class)->middleware('auth:sanctum');
