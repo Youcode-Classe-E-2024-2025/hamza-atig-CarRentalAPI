@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Car;
 use Illuminate\Http\Request;
 
 class CarController extends Controller
@@ -11,7 +12,7 @@ class CarController extends Controller
      */
     public function index()
     {
-        //
+        return Car::all();
     }
 
     /**
@@ -19,30 +20,54 @@ class CarController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'mark' => 'required',
+            'model' => 'required',
+            'color' => 'required',
+            'price' => 'required',
+            'year' => 'required',          
+        ]);
+
+        $car = Car::create([
+            'mark' => $request->mark,
+            'model' => $request->model,
+            'color' => $request->color,
+            'price' => $request->price,
+            'year' => $request->year,
+        ]);
+
+        return response()->json([
+            'message' => 'Car created successfully',
+            'car' => $car
+        ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Car $car)
     {
-        //
+        return $car;
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Car $car)
     {
-        //
+        $car->update($request->all());
+        return $car;
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Car $car)
     {
-        //
+        $car->delete();
+        return response()->json([
+            'message' => 'Car deleted successfully',
+            'car' => $car 
+        ]);
     }
 }
