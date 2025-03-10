@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('rentals', function (Blueprint $table) {
             $table->id();
+            $table->integer('user_id');
+            $table->integer('car_id');
+            $table->date('start_date');
+            $table->date('end_date');
             $table->timestamps();
         });
     }
