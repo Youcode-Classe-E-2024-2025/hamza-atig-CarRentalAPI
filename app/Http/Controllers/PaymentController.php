@@ -11,7 +11,12 @@ use Stripe\Stripe;
 class PaymentController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/api/payments",
+     *     summary="Display a listing of payments",
+     *     tags={"payments"},
+     *     @OA\Response(response="200", description="Display a listing of payments")
+     * )
      */
     public function index()
     {
@@ -19,7 +24,23 @@ class PaymentController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/api/payments",
+     *     summary="Store a newly created payment",
+     *     tags={"payments"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"user_id", "amount", "rental_id", "status"},
+     *             @OA\Property(property="user_id", type="integer"),
+     *             @OA\Property(property="amount", type="number"),
+     *             @OA\Property(property="rental_id", type="integer"),
+     *             @OA\Property(property="status", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(response="201", description="Payment created successfully"),
+     *     @OA\Response(response="500", description="Stripe API error")
+     * )
      */
     public function store(Request $request, Payment $payment)
     {
@@ -69,7 +90,18 @@ class PaymentController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/api/payments/{id}",
+     *     summary="Display the specified payment",
+     *     tags={"payments"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response="200", description="Display the specified payment")
+     * )
      */
     public function show(Payment $payment)
     {
@@ -77,7 +109,27 @@ class PaymentController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *     path="/api/payments/{id}",
+     *     summary="Update the specified payment",
+     *     tags={"payments"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="user_id", type="integer"),
+     *             @OA\Property(property="amount", type="number"),
+     *             @OA\Property(property="rental_id", type="integer"),
+     *             @OA\Property(property="status", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(response="200", description="Payment updated successfully")
+     * )
      */
     public function update(Request $request, Payment $payment)
     {
@@ -86,7 +138,18 @@ class PaymentController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     path="/api/payments/{id}",
+     *     summary="Remove the specified payment",
+     *     tags={"payments"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response="200", description="Payment deleted successfully")
+     * )
      */
     public function destroy(Payment $payment)
     {
@@ -97,3 +160,4 @@ class PaymentController extends Controller
         ]);
     }
 }
+

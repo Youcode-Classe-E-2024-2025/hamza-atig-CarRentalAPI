@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 /**
  * @OA\Info(
- *     title="Users API",
+ *     title="CarRentale",
  *     version="1.0"
  * )
  */

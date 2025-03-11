@@ -8,7 +8,12 @@ use Illuminate\Http\Request;
 class CarController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/api/cars",
+     *     summary="Display a listing of cars",
+     *     tags={"cars"},
+     *     @OA\Response(response="200", description="Display a listing of cars")
+     * )
      */
     public function index()
     {
@@ -16,7 +21,23 @@ class CarController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/api/cars",
+     *     summary="Store a newly created car",
+     *     tags={"cars"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"mark", "model", "color", "price", "year"},
+     *             @OA\Property(property="mark", type="string"),
+     *             @OA\Property(property="model", type="string"),
+     *             @OA\Property(property="color", type="string"),
+     *             @OA\Property(property="price", type="number"),
+     *             @OA\Property(property="year", type="integer")
+     *         )
+     *     ),
+     *     @OA\Response(response="201", description="Car created successfully")
+     * )
      */
     public function store(Request $request)
     {
@@ -43,7 +64,18 @@ class CarController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/api/cars/{id}",
+     *     summary="Display the specified car",
+     *     tags={"cars"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response="200", description="Display the specified car")
+     * )
      */
     public function show(Car $car)
     {
@@ -51,7 +83,28 @@ class CarController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *     path="/api/cars/{id}",
+     *     summary="Update the specified car",
+     *     tags={"cars"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="mark", type="string"),
+     *             @OA\Property(property="model", type="string"),
+     *             @OA\Property(property="color", type="string"),
+     *             @OA\Property(property="price", type="number"),
+     *             @OA\Property(property="year", type="integer")
+     *         )
+     *     ),
+     *     @OA\Response(response="200", description="Car updated successfully")
+     * )
      */
     public function update(Request $request, Car $car)
     {
@@ -60,7 +113,18 @@ class CarController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     path="/api/cars/{id}",
+     *     summary="Remove the specified car",
+     *     tags={"cars"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response="200", description="Car deleted successfully")
+     * )
      */
     public function destroy(Car $car)
     {
@@ -71,3 +135,4 @@ class CarController extends Controller
         ]);
     }
 }
+
