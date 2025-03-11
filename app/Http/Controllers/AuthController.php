@@ -5,10 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 
+/**
+ * @OA\Info(
+ *     title="Users API",
+ *     version="1.0"
+ * )
+ */
 class AuthController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/api/users",
+     *     summary="Display a listing of users",
+     *     tags={"users"},
+     *     @OA\Response(response="200", description="Display a listing of users")
+     * )
      */
     public function index()
     {
@@ -16,7 +27,21 @@ class AuthController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/api/users",
+     *     summary="Store a newly created user",
+     *     tags={"users"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"name", "email", "password"},
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="email", type="string"),
+     *             @OA\Property(property="password", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(response="201", description="User created successfully")
+     * )
      */
     public function store(Request $request)
     {
@@ -40,7 +65,18 @@ class AuthController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/api/users/{id}",
+     *     summary="Display the specified user",
+     *     tags={"users"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response="200", description="Display the specified user")
+     * )
      */
     public function show(User $user)
     {
@@ -48,7 +84,26 @@ class AuthController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *     path="/api/users/{id}",
+     *     summary="Update the specified user",
+     *     tags={"users"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="name", type="string"),
+     *             @OA\Property(property="email", type="string"),
+     *             @OA\Property(property="password", type="string")
+     *         )
+     *     ),
+     *     @OA\Response(response="200", description="User updated successfully")
+     * )
      */
     public function update(Request $request, User $user)
     {
@@ -57,7 +112,18 @@ class AuthController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     path="/api/users/{id}",
+     *     summary="Remove the specified user",
+     *     tags={"users"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response="200", description="User deleted successfully")
+     * )
      */
     public function destroy(User $user)
     {
@@ -67,3 +133,4 @@ class AuthController extends Controller
         ]);
     }
 }
+
